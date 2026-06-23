@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>FORECASTER · Trade Call v6</title>
+<title>FORECASTER · Trade Call v7</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -32,7 +32,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,sans-
 .profile{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 24px;margin-top:10px}
 .profile .ptop{display:flex;align-items:center;gap:18px}
 .profile .pmeta{min-width:0}
-.spotpill{font-family:var(--mono);font-size:23px;font-weight:800;color:var(--ink);background:var(--amber-bg);border:1px solid #f0d9a8;padding:4px 14px;border-radius:10px;line-height:1.15;display:inline-block}
+.spotpill{font-family:var(--mono);font-size:23px;font-weight:800;color:var(--ink);background:#fff;border:1px solid var(--line-2);padding:4px 14px;border-radius:10px;line-height:1.15;display:inline-block}
 .profile .pstats{display:flex;margin-top:16px;padding-top:15px;border-top:1px solid var(--line)}
 .profile .ps{flex:1;padding:0 18px}
 .profile .ps:first-child{padding-left:0}
@@ -53,7 +53,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Archivo',system-ui,sans-
 .bx-hd{padding:18px 22px 0}.bx-hd h2{font-size:17px;font-weight:800}.bx-hd p{color:var(--ink-2);font-size:13px;margin-top:3px}
 /* forecast header */
 .call{margin:0;padding:20px 22px;border-bottom:1px solid var(--line)}
-.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);background:var(--purple-bg);padding:3px 9px;border-radius:6px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);background:#ebe8e2;padding:3px 9px;border-radius:6px}
+.tag .livedot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;box-shadow:0 0 0 3px rgba(22,163,74,.16)}
 .tag.long{color:var(--green);background:var(--green-bg)}.tag.short{color:var(--red);background:var(--red-bg)}
 .stmt{font-size:21px;font-weight:800;margin-top:11px;line-height:1.25}
 .stmt b{background:var(--green-bg);color:var(--green);padding:0 6px;border-radius:5px}
@@ -145,13 +146,19 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .cfglbl{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .segrow{display:flex;gap:8px}
 .segrow .seg2{flex:1}
-.seg2{font-family:inherit;font-size:11px;font-weight:700;padding:7px 11px;border-radius:7px;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);cursor:pointer;transition:.12s;line-height:1.15;text-align:center}
+.segrow.solo{justify-content:flex-start}
+.segrow.solo .seg2{flex:0 1 auto;min-width:120px}
+.seg2{font-family:inherit;font-size:11px;font-weight:700;padding:7px 11px;border-radius:7px;border:1px solid var(--line-2);background:#fff;color:var(--ink-2);cursor:pointer;transition:.12s;line-height:1.15;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .seg2:hover{border-color:var(--ink-3)}
-.seg2.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.seg2.on{border-color:var(--ink);background:linear-gradient(180deg,#f4f1ea,#e7e3da);color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .seg2.on.sage{border-color:var(--amber);background:var(--amber-bg);color:var(--amber)}
 .seg2.dim,.seg2:disabled{opacity:.4;cursor:not-allowed;background:#f6f5f2}
 .seg2.dim:hover,.seg2:disabled:hover{border-color:var(--line-2)}
-.seg2 small{display:block;font-weight:600;font-size:8.5px;margin-top:2px;opacity:.85;text-transform:uppercase;letter-spacing:.04em}
+.seg2 small{display:block;font-weight:600;font-size:8px;opacity:.85;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.btnrow{display:inline-flex;align-items:center;justify-content:center;gap:5px}
+.cmark{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;font-size:9px;font-weight:800;color:#fff;flex:none;font-family:Arial,Helvetica,sans-serif}
+.cmark svg{width:15px;height:15px;display:block}
+.cmark.sage{background:var(--amber)}
 .sagenote{font-size:11px;line-height:1.5;color:#7a5200;background:#fffaf0;border:1px solid #f0d9a8;border-radius:8px;padding:9px 11px;margin-top:2px}
 .sagenote b{color:#5c3d00}
 .usdnote{font-size:11px;line-height:1.5;color:var(--ink-2);background:#f3f5f7;border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;margin-top:2px}
@@ -271,11 +278,12 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .sicon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .sicon.back{background:var(--green-bg);color:var(--green)}
 .sicon.fade{background:var(--red-bg);color:var(--red)}
-.sicon.hedge{background:var(--amber-bg);color:var(--amber)}
+.sicon.hedge{background:#efece6;color:var(--ink-2)}
 .scard .meta{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:5px}
 .scard .nm{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.15}
 .holdernote{font-size:10.5px;font-weight:500;color:var(--ink-3);letter-spacing:0;text-transform:none}
 .scard .meta .wintag{margin-bottom:0}
+.scard .meta .wintag.lands,.scard .meta .wintag.misses,.scard .meta .wintag.either{color:var(--ink-3);background:none;padding:0}
 .scardfoot{display:flex;justify-content:space-between;align-items:center;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
 .scard.on .scardfoot{border-top-color:#d9d2f7}
 .footpay{display:flex;align-items:baseline;gap:9px}
@@ -299,7 +307,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .headsplit{display:grid;grid-template-columns:1fr 340px;border-bottom:1px solid var(--line)}
 @media(max-width:900px){.headsplit{grid-template-columns:1fr}}
 .headsplit .call{border-bottom:none}
-.take{height:100%;box-sizing:border-box;padding:20px 22px;border-left:1px solid var(--line);background:#fbfaf7;display:flex;flex-direction:column;gap:17px}
+.take{height:100%;box-sizing:border-box;padding:20px 22px;border-left:1px solid var(--line);background:#fbfaf7;display:flex;flex-direction:column;gap:14px}
 @media(max-width:900px){.take{border-left:none;border-top:1px solid var(--line)}}
 .takehd{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:800}
 .takeblk{display:flex;flex-direction:column;gap:8px}
@@ -316,17 +324,24 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .oddsref .you{color:var(--purple)}
 /* ===== v6 slider market notch ===== */
 .vpwrap{position:relative;padding-top:22px;margin-top:1px}
+.vpwrap.two{padding-bottom:22px}
 .vpwrap input[type=range]{margin:0;position:relative;z-index:1}
 .mknotch{position:absolute;top:0;width:0;pointer-events:none;z-index:3}
 .mklab{position:absolute;left:0;top:0;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--ink-2)}
 .mklab::after{content:"";position:absolute;left:50%;top:calc(100% + 1px);transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink);border-bottom:0}
 .mkline{position:absolute;left:0;top:15px;transform:translateX(-50%);width:2px;height:14px;background:var(--ink);border-radius:1px}
+.mknotch.price{top:auto;bottom:0}
+.mknotch.price .mklab{top:auto;bottom:0;color:var(--ink-3)}
+.mknotch.price .mklab::after{top:auto;bottom:calc(100% + 1px);border-top:0;border-bottom:4px solid var(--ink-3)}
+.mknotch.price .mkline{top:auto;bottom:15px;background:var(--ink-3)}
 .verdict .you{color:var(--purple);font-weight:700}
 /* ===== v4 suggested positions ===== */
-.recmini{display:flex;flex-direction:column;gap:8px;margin-top:-4px}
+#recCard{margin-top:-5px}
+.recmini{display:flex;flex-direction:column;gap:7px;margin-top:-4px}
 .rechd{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--purple);font-weight:800;display:flex;align-items:center;gap:6px}
 .recempty{font-size:11.5px;color:var(--ink-3);line-height:1.5}
-.recbtn{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:1.5px solid var(--line-2);border-radius:10px;background:#fff;padding:8px 10px;cursor:pointer;font-family:inherit;transition:.14s}
+.recbtn{display:flex;align-items:center;gap:9px;width:100%;height:48px;box-sizing:border-box;text-align:left;border:1.5px solid var(--line-2);border-radius:10px;background:#fff;padding:8px 10px;cursor:pointer;font-family:inherit;transition:.14s}
+.recbtn.ghost{visibility:hidden;pointer-events:none}
 .recbtn:hover{border-color:var(--purple);transform:translateY(-1px);box-shadow:0 5px 14px -9px rgba(91,74,230,.55)}
 .recbtn.primary{border-color:var(--purple);box-shadow:0 3px 12px -8px rgba(91,74,230,.5)}
 .recbtn.applied{background:#f3f0ff;border-color:var(--purple)}
@@ -358,7 +373,32 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 /* ===== v6 market-pricing: two side-by-side cards (odds + reputation) ===== */
 .mktrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
 @media(max-width:760px){.mktrow{grid-template-columns:1fr}}
-.mktcard{border:1px solid var(--line);border-radius:12px;padding:14px 15px;background:#fbfaf7}
+.mktcard{border:1px solid var(--line);border-radius:12px;padding:14px 15px;background:#fbfaf7;display:flex;flex-direction:column}
+.oddsbody{margin-top:2px}
+.resolvebar{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 13px;border:1px solid var(--line-2);border-radius:9px;background:#fbfaf7}
+.resolvebar .rclock{width:14px;height:14px;fill:none;stroke:var(--ink-2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.resolvebar .rk{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.resolvebar .rv{font-size:15px;font-weight:700;color:var(--ink)}
+.pjrn{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;padding-bottom:16px;display:flex;flex-direction:column;gap:16px}
+.pjhd{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:800}
+.pjflow{display:flex;align-items:center}
+.pjend{position:relative;flex:none}
+.pjpill{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:6px;padding:4px 10px;white-space:nowrap}
+.pjcap{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.pjmid{flex:1;display:flex;align-items:center;gap:9px;margin:0 11px}
+.pjseg{flex:1;height:2px;border-radius:1px}
+.pjseg.fav{background:var(--green)}.pjseg.agn{background:var(--red)}.pjseg.neu{background:var(--ink-3)}
+.pjseg.r{position:relative}
+.pjseg.r::after{content:"";position:absolute;right:0;top:50%;transform:translate(4px,-50%);border:5px solid transparent;border-right:0}
+.pjseg.r.fav::after{border-left-color:var(--green)}.pjseg.r.agn::after{border-left-color:var(--red)}.pjseg.r.neu::after{border-left-color:var(--ink-3)}
+.pjdelta{flex:none;font-family:var(--mono);font-size:14px;font-weight:700;line-height:1;white-space:nowrap}
+.pjdelta.fav{color:var(--green)}.pjdelta.agn{color:var(--red)}.pjdelta.neu{color:var(--ink)}
+.oddstrend{margin-top:auto;padding-top:13px}
+.otcap{display:flex;justify-content:space-between;align-items:baseline;font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.otd{font-family:var(--mono);font-size:10px;letter-spacing:0}
+.otd.up{color:var(--green)}
+.otspark{display:block;width:100%;height:50px}
+.otline{fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .msk{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:800}
 .mexp{font-size:11px;color:var(--ink-3);margin-top:3px;margin-bottom:13px}
 .curpill{font-family:var(--mono);font-size:9px;font-weight:800;letter-spacing:.02em;padding:2px 7px;border-radius:5px;text-transform:none;flex:none}
@@ -370,15 +410,27 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .probtrack{display:flex;gap:3px;height:10px;border-radius:6px;overflow:hidden}
 .probtrack .seg.l{background:var(--green);border-radius:6px 2px 2px 6px;min-width:3px}
 .probtrack .seg.m{background:#e29a9a;border-radius:2px 6px 6px 2px;flex:1;min-width:3px}
-.repbox3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.rb{border:1px solid var(--line);border-radius:9px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
-.rb.misses{border-color:#eccccc;background:#fdf4f4}
-.rb.lands{border-color:#cfe8d6;background:#f2faf5}
-.rbk{font-size:10.5px;font-weight:700}
-.rb.misses .rbk{color:var(--red)}.rb.lands .rbk{color:var(--green)}.rb.spot .rbk{color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
-.rbv{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--ink)}
-.rbm{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--ink-3)}
-.rbm.up{color:var(--green)}.rbm.dn{color:var(--red)}
+.repbody{margin:auto 0}
+.repsvg{display:block;width:100%;height:auto}
+.repsvg text{font-family:var(--mono)}
+.repsvg .tval{font-size:13px;font-weight:700;fill:var(--ink)}
+.repsvg .tpc{font-size:12px;font-weight:700}
+.repsvg .tpc.up{fill:var(--green)}
+.repsvg .tpc.dn{fill:var(--red)}
+.repsvg .axlbl,.repsvg .slbl{font-size:10px;font-weight:700;fill:var(--ink-3);letter-spacing:.07em}
+.repsvg .badge{stroke:#fbfaf7;stroke-width:1.5}
+.repsvg .badge.up{fill:var(--green)}
+.repsvg .badge.dn{fill:var(--red)}
+.repsvg .bmark{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.repsvg .rl{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.repsvg .rl.spot{stroke:var(--ink-3)}
+.repsvg .rl.up{stroke:var(--green)}
+.repsvg .rl.dn{stroke:var(--red)}
+.repsvg .repnow{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 4}
+.repsvg .rdot{stroke:#fbfaf7;stroke-width:1.5}
+.repsvg .rdot.spot{fill:var(--ink-3)}
+.repsvg .rdot.up{fill:var(--green)}
+.repsvg .rdot.dn{fill:var(--red)}
 /* ===== v4 crossed-out (unavailable) settle button ===== */
 .seg2.xout{opacity:1;color:var(--ink-3);cursor:not-allowed;border-color:#e6bcbc;
  background-image:
@@ -397,9 +449,9 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   <div class="demobar">
     <span class="lab">Demo · forecast type</span>
     <div class="seg" id="typeSeg">
-      <button data-t="time" class="on">⏱ Time-based call</button>
-      <button data-t="tpsl0">🎯 TP / SL · 38% odds</button>
-      <button data-t="tpsl1">🎯 TP / SL · 12% odds</button>
+      <button data-t="time" class="on">Time-based call</button>
+      <button data-t="tpsl0">TP / SL · 38% odds</button>
+      <button data-t="tpsl1">TP / SL · 12% odds</button>
     </div>
   </div>
 
@@ -435,6 +487,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
 <script>
 /* ============ MODEL ============ */
+const USDC_SVG=`<svg viewBox="0 0 2000 2000" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="1000" cy="1000" r="1000" fill="#2775CA"/><path fill="#fff" d="M1275 1158.33c0-145.83-87.5-195.83-262.5-216.66-125-16.67-150-50-150-108.34s41.67-95.83 125-95.83c75 0 116.67 25 137.5 87.5 4.17 12.5 16.67 20.83 29.17 20.83h66.66c16.67 0 29.17-12.5 29.17-29.16v-4.17c-16.67-91.67-91.67-162.5-187.5-170.83v-100c0-16.67-12.5-29.17-33.33-33.34h-62.5c-16.67 0-29.17 12.5-33.34 33.34v95.83c-125 16.67-204.16 100-204.16 204.17 0 137.5 83.33 191.66 258.33 212.5 116.67 20.83 154.17 45.83 154.17 112.5s-58.34 112.5-137.5 112.5c-108.34 0-145.84-45.84-158.34-108.34-4.16-16.66-16.66-25-29.16-25h-70.84c-16.66 0-29.16 12.5-29.16 29.17v4.17c16.66 104.16 83.33 179.16 220.83 200v100c0 16.66 12.5 29.16 33.33 33.33h62.5c16.67 0 29.17-12.5 33.34-33.33v-100c125-20.84 208.33-108.34 208.33-220.84z"/><path fill="#fff" d="M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zM1229.17 295.83c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z"/></svg>`;
 const P_TRUE=0.12,P_FALSE=0.06;
 const FORECASTS={
  time:{kind:'time',handleCall:'BTC will be <b>above $150,000</b> by Mar 31',c:0.67,sym:'BTC',now:115000,target:150000,
@@ -493,7 +546,29 @@ function rr(reward){return '1 : '+(reward>=10?reward.toFixed(0):reward.toFixed(1
 
 /* ============ FORECAST HEADER ============ */
 /* market pricing: two side-by-side cards — USDC outcome odds + $SAGE reputation */
-function marketCard(c){
+/* price-journey gauge: time-based looks forward (now→target), TP/SL looks back (called→now) */
+function gaugeHTML(lk,lc,rk,rc,delta,cls){
+ return `<div class="pjrn">
+     <div class="pjhd">Forecast Progress</div>
+     <div class="pjflow">
+       <div class="pjend"><span class="pjpill">${lk}</span><span class="pjcap">${lc}</span></div>
+       <div class="pjmid"><span class="pjseg ${cls}"></span><span class="pjdelta ${cls}">${delta}</span><span class="pjseg r ${cls}"></span></div>
+       <div class="pjend"><span class="pjpill">${rk}</span><span class="pjcap">${rc}</span></div>
+     </div>
+   </div>`;
+}
+function priceGauge(f){
+ const km=v=>'$'+Math.round(v).toLocaleString('en-US');
+ if(f.kind==='time'){
+  const gap=Math.abs(Math.round((f.target-f.now)/f.now*100)), cleared=f.now>=f.target;
+  return gaugeHTML(km(f.now),'Now',km(f.target),'Target',`${gap}% ${cleared?'above':'below'}`,'neu');
+ }
+ const mv=(f.now-f.entry)/f.entry*100, fav=(f.dir==='LONG')===(mv>=0);
+ const cls=fav?'fav':'agn', ar=mv>=0?'▲':'▼';
+ return gaugeHTML(km(f.entry),'Start',km(f.now),'Now',`${ar} ${Math.abs(mv).toFixed(1)}%`,cls);
+}
+function marketCard(f){
+ const c=f.c;
  const lands=Math.round(c*100), misses=100-lands;
  const lo=P_FALSE, hi=P_TRUE, spot=P_FALSE+(P_TRUE-P_FALSE)*c;
  const up=Math.round((hi-spot)/spot*100), dn=Math.round((spot-lo)/spot*100);
@@ -502,32 +577,57 @@ function marketCard(c){
    <div class="mktcard">
      <div class="msk">Outcome odds <span class="curpill usdc">USDC</span></div>
      <div class="mexp">What traders are pricing this forecast at right now.</div>
-     <div class="problabels"><span class="pl lands">▲ Lands <b>${lands}%</b></span><span class="pl misses"><b>${misses}%</b> Misses ▼</span></div>
-     <div class="probtrack"><span class="seg l" style="width:${lands}%"></span><span class="seg m"></span></div>
+     <div class="oddsbody">
+       <div class="problabels"><span class="pl lands">▲ Lands <b>${lands}%</b></span><span class="pl misses"><b>${misses}%</b> Misses ▼</span></div>
+       <div class="probtrack"><span class="seg l" style="width:${lands}%"></span><span class="seg m"></span></div>
+     </div>
+     ${priceGauge(f)}
    </div>
    <div class="mktcard">
      <div class="msk">Reputation <span class="curpill sage">$SAGE</span></div>
      <div class="mexp">Where traders price @cryptosage's token if this call lands or misses.</div>
-     <div class="repbox3">
-       <div class="rb misses"><span class="rbk">▼ Misses</span><span class="rbv">${d(lo)}</span><span class="rbm dn">−${dn}%</span></div>
-       <div class="rb spot"><span class="rbk">Spot</span><span class="rbv">${d(spot)}</span><span class="rbm">now</span></div>
-       <div class="rb lands"><span class="rbk">▲ Lands</span><span class="rbv">${d(hi)}</span><span class="rbm up">+${up}%</span></div>
+     <div class="repbody">
+       <svg viewBox="0 0 480 178" class="repsvg" aria-hidden="true">
+         <defs>
+           <linearGradient id="gUp" gradientUnits="userSpaceOnUse" x1="0" y1="32" x2="0" y2="70">
+             <stop offset="0" stop-color="#16a34a" stop-opacity=".26"/><stop offset="1" stop-color="#16a34a" stop-opacity="0"/>
+           </linearGradient>
+           <linearGradient id="gDn" gradientUnits="userSpaceOnUse" x1="0" y1="70" x2="0" y2="142">
+             <stop offset="0" stop-color="#dc2626" stop-opacity="0"/><stop offset="1" stop-color="#dc2626" stop-opacity=".26"/>
+           </linearGradient>
+         </defs>
+         <line x1="232" y1="16" x2="232" y2="150" class="repnow"/>
+         <text x="232" y="170" class="axlbl" text-anchor="middle">FORECAST</text>
+         <path d="M232,70 C250,61 263,65 278,57 C296,47 314,47 330,39 C347,31 364,33 384,32 L384,70 L232,70 Z" fill="url(#gUp)"/>
+         <path d="M232,70 C250,80 263,76 278,88 C296,102 314,107 330,121 C347,134 364,138 384,142 L384,70 L232,70 Z" fill="url(#gDn)"/>
+         <path d="M10,84 C18,83 22,87 28,82 C35,76 40,79 47,83 C53,86 56,93 64,90 C73,86 76,72 86,75 C95,78 99,88 108,86 C117,84 120,93 130,91 C141,89 145,79 156,81 C167,83 171,76 182,72 C193,68 198,73 208,70 C218,67 224,71 232,70" class="rl spot"/>
+         <path d="M232,70 C250,67 263,73 278,69 C296,64 314,72 330,70 C348,68 366,70 384,70" class="rl spot"/>
+         <path d="M232,70 C250,61 263,65 278,57 C296,47 314,47 330,39 C347,31 364,33 384,32" class="rl up"/>
+         <path d="M232,70 C250,80 263,76 278,88 C296,102 314,107 330,121 C347,134 364,138 384,142" class="rl dn"/>
+         <circle cx="232" cy="70" r="3.4" class="rdot spot"/>
+         <circle cx="384" cy="70" r="3.4" class="rdot spot"/>
+         <circle cx="384" cy="32" r="8.5" class="badge up"/>
+         <path d="M380,32 l2.8,3 l4.8,-6" class="bmark"/>
+         <circle cx="384" cy="142" r="8.5" class="badge dn"/>
+         <path d="M380.5,138.5 l7,7 M387.5,138.5 l-7,7" class="bmark"/>
+         <text x="400" y="37" class="tval">${d(hi)}</text>
+         <text x="444" y="37" class="tpc up">+${up}%</text>
+         <text x="400" y="74" class="tval">${d(spot)}</text>
+         <text x="444" y="74" class="slbl">SPOT</text>
+         <text x="400" y="147" class="tval">${d(lo)}</text>
+         <text x="444" y="147" class="tpc dn">−${dn}%</text>
+       </svg>
      </div>
    </div></div>`;
 }
 function renderHead(){
  const f=F();let h='';
  if(f.kind==='time'){
-  const toTgt=(f.target-f.now)/f.now, cleared=toTgt<=0;
-  const gapPct=Math.round(Math.abs(toTgt)*100), arrow=cleared?'▴':'▾';
-  const priceMeta=[
-    [`${f.sym} price`,'$'+f.now.toLocaleString('en-US'),''],
-    [`To ${k(f.target)}`,`${arrow}${gapPct}%`,'']];
-  const allMeta=priceMeta.concat(f.meta.filter(m=>m[0]!=='Type').map(m=>[m[0],m[1],'']));
-  h=`<div class="call"><span class="tag">● Active call</span>
+  const resolve=(f.meta.find(m=>m[0]==='Resolves in')||['','—'])[1];
+  h=`<div class="call"><span class="tag"><span class="livedot"></span>Active call</span>
    <div class="stmt">${f.handleCall} <span style="color:var(--ink-3);font-size:14px">00:00 UTC</span></div>
-   <div class="metarow">${allMeta.map(m=>`<div class="it">${m[0]}<b class="${m[2]==='g'?'mg':m[2]==='r'?'mr':''}">${m[1]}</b></div>`).join('')}</div>
-   ${marketCard(f.c)}</div>`;
+   <div class="resolvebar"><svg class="rclock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="rk">Resolves in</span><span class="rv mono">${resolve}</span></div>
+   ${marketCard(f)}</div>`;
  }else{
   const tpPct=((f.tp-f.now)/f.now*100),slPct=((f.now-f.sl)/f.now*100);
   const pos=((f.now-f.sl)/(f.tp-f.sl))*100;
@@ -557,7 +657,7 @@ function renderHead(){
        <div class="e r"><span class="px">${k(f.tp)}</span></div>
      </div>
    </div>
-   ${marketCard(f.c)}</div>`;
+   ${marketCard(f)}</div>`;
  }
  $('#fhead').innerHTML=h;
 }
@@ -568,24 +668,26 @@ function viewVerdict(){
  if(userP==null){verdict=`Drag to set <b>your</b> probability. We\'ll show which line has an edge for you.`;}
  else{const eBack=pv/c-1, eFade=(1-pv)/(1-c)-1;
   if(Math.abs(pv-c)<0.015){verdict=`You agree with the market (${pct(c)}). No directional edge. If you hold $SAGE, consider <b>Hedge</b> to protect it through this call.`;}
-  else if(pv>c){cls='edge';verdict=`You read it as <b>underpriced</b> (<span class="you">your odds ${pct(pv)}</span> vs market ${pct(c)}). <span class="pos">Back the call, +${Math.round(eBack*100)}% edge.</span>`;}
-  else{cls='edge';verdict=`You read it as <b>overpriced</b> (<span class="you">your odds ${pct(pv)}</span> vs market ${pct(c)}). <span class="pos">Fade the call, +${Math.round(eFade*100)}% edge.</span>`;}}
+  else if(pv>c){cls='edge';verdict=`You read it as <b>underpriced</b> (<span class="you">your odds ${pct(pv)}</span> vs market ${pct(c)}).`;}
+  else{cls='edge';verdict=`You read it as <b>overpriced</b> (<span class="you">your odds ${pct(pv)}</span> vs market ${pct(c)}).`;}}
  return {verdict,cls};
 }
 /* ============ YOUR-TAKE PANEL (right of the prediction) ============ */
 function renderTake(){
- const c=mktC(),pv=p(),v=viewVerdict();
+ const c=mktC(),pv=p(),v=viewVerdict(),f=F();
+ const isTp=f.kind==='tpsl', geomP=isTp?((f.now-f.sl)/(f.tp-f.sl))*100:null, gp=isTp?Math.round(geomP):null;
  $('#takePanel').innerHTML=`<div class="take">
    <div class="takehd">Your take</div>
    <div class="takeblk">
      <div class="tklbl"><span class="qn">1</span>Bullish on @cryptosage?</div>
      <div class="segrow">
-       <button class="seg2 ${sentiment==='bull'?'on green':''}" data-sent="bull">📈 Bullish $SAGE</button>
-       <button class="seg2 ${sentiment==='bear'?'on red':''}" data-sent="bear">📉 Bearish $SAGE</button></div></div>
+       <button class="seg2 ${sentiment==='bull'?'on green':''}" data-sent="bull">Bullish $SAGE</button>
+       <button class="seg2 ${sentiment==='bear'?'on red':''}" data-sent="bear">Bearish $SAGE</button></div></div>
    <div class="takeblk">
      <div class="tklbl"><span class="qn">2</span>Odds this forecast lands?</div>
-     <div class="vpwrap">
-       <span class="mknotch" style="left:${(c*100).toFixed(0)}%"><span class="mklab">MARKET ${pct(c)}</span><span class="mkline"></span></span>
+     <div class="vpwrap${isTp?' two':''}">
+       <span class="mknotch" style="left:${(c*100).toFixed(0)}%"><span class="mklab">MKT ${pct(c)}</span><span class="mkline"></span></span>
+       ${isTp?`<span class="mknotch price" style="left:${geomP.toFixed(0)}%"><span class="mkline"></span><span class="mklab">PRICE ${gp}%</span></span>`:''}
        <input type="range" id="vp" min="2" max="98" value="${Math.round(pv*100)}"></div>
      <div class="verdict ${v.cls}" id="verdictEl">${v.verdict}</div></div>
    <div id="recCard"></div></div>`;
@@ -626,10 +728,10 @@ function recsFor(){
    recs.push({id:'hedge',entry:'sage',settle:'sage',tag:'Lower risk',
      why:`Want the upside without the downside? Hedge keeps your $SAGE intact if the call slips.`});
   }else if(dir==='fade'){
-   recs.push({id:'hedge',entry:'sage',settle:'sage',primary:true,tag:'Protected either way',
-     why:`You hold $SAGE long-term but read this call as a miss. Hedge carries the token safely through it.`});
-   recs.push({id:'fade',entry:'usdc',settle:'usd',tag:`+${eFade}% edge`,
-     why:`Or take the miss outright in USDC if you'd rather bank dollars than protect the token.`});
+   recs.push({id:'fade',entry:'usdc',settle:'sage',primary:true,tag:`+${eFade}% edge`,
+     why:`You read this call as a miss but you're bullish on @cryptosage. Fade it and take the win in $SAGE to scoop the token at the dip.`});
+   recs.push({id:'hedge',entry:'sage',settle:'sage',tag:'Protected either way',
+     why:`Already holding $SAGE? Hedge carries it safely through this call instead of betting on the miss.`});
   }else{
    recs.push({id:'hedge',entry:'sage',settle:'sage',primary:true,tag:'Protected either way',
      why:`No directional edge, but you're bullish on @cryptosage. Hedge de-risks this one call while you keep holding.`});
@@ -650,6 +752,7 @@ function recsFor(){
 }
 function setupLabel(r){
  if(r.id==='hedge')return 'Upside Exposure, Downside Protection';
+ if(r.id==='fade'&&r.settle==='sage')return 'Buy the dip · settle $SAGE';
  return `Fund ${r.entry==='sage'?'$SAGE':'USDC'} · settle ${r.settle==='sage'?'$SAGE':'USDC'}`;
 }
 function renderRecs(){
@@ -660,11 +763,11 @@ function renderRecs(){
   return;
  }
  $('#recCard').innerHTML=`<div class="recmini"><div class="rechd">✨ Suggested for your take</div>
-   ${recs.map((r,i)=>{const applied=appliedRec===i;const m=r.tag.match(/\+\d+%/);const badge=applied?'✓':(m?m[0]:'');
+   ${recs.map((r,i)=>{const applied=appliedRec===i;const m=r.tag.match(/\+\d+%/);const badge=applied?'✓':(m?m[0]+' edge':'');
      return `<button class="recbtn ${r.primary?'primary':''} ${applied?'applied':''}" data-i="${i}">
        <span class="sicon ${r.id}">${ICON[r.id]}</span>
        <span class="bd"><span class="nm">${STRAT[r.id].name}</span><span class="st">${setupLabel(r)}</span></span>
-       ${badge?`<span class="eg">${badge}</span>`:''}</button>`;}).join('')}</div>`;
+       ${badge?`<span class="eg">${badge}</span>`:''}</button>`;}).join('')}${recs.length<2?'<div class="recbtn ghost" aria-hidden="true"></div>':''}</div>`;
  $('#recCard').querySelectorAll('.recbtn').forEach(b=>b.onclick=()=>{
    const i=+b.dataset.i,r=recsFor()[i];if(!r)return;
    selected=r.id;entry=r.entry;settle=r.settle;openPos=null;settledState=null;appliedRec=i;
@@ -728,16 +831,16 @@ function tradeDrawer(id){
  let cfg;
  if(st.directional){
   cfg=`<div class="cfgline"><span class="cfglbl">Funding</span>
-       <div class="segrow"><button class="seg2 ${entry==='usdc'?'on':''}" data-fund="usdc">💵 USDC</button>
-       <button class="seg2 ${entry==='sage'?'on':''}" data-fund="sage">🪙 $SAGE</button></div></div>
+       <div class="segrow"><button class="seg2 ${entry==='usdc'?'on':''}" data-fund="usdc"><span class="btnrow"><span class="cmark usdc">${USDC_SVG}</span>USDC</span></button>
+       <button class="seg2 ${entry==='sage'?'on':''}" data-fund="sage"><span class="btnrow"><span class="cmark sage">S</span>$SAGE</span></button></div></div>
       <div class="cfgline"><span class="cfglbl">Settle in</span>
-       <div class="segrow"><button class="seg2 ${sageFund?'xout':(settle==='usd'?'on':'')}" data-set="usd" ${sageFund?'disabled title="Funding in $SAGE. Swap to USDC first to settle in dollars"':''}>💵 USDC</button>
-       <button class="seg2 ${settle==='sage'?'on sage':''}" data-set="sage">⚡ $SAGE<small>amplify outcome</small></button></div></div>
+       <div class="segrow${sageFund?' solo':''}">${sageFund?'':`<button class="seg2 ${settle==='usd'?'on':''}" data-set="usd"><span class="btnrow"><span class="cmark usdc">${USDC_SVG}</span>USDC</span></button>`}
+       <button class="seg2 ${settle==='sage'?'on sage':''}" data-set="sage"><span class="btnrow"><span class="cmark sage">S</span>$SAGE</span><small>amplify outcome</small></button></div></div>
       ${settle==='sage'
-        ?`<div class="sagenote">⚡ Settling in <b>$SAGE</b> pays your winnings out in this forecaster's token. ${id==='fade'?`A <b>buy-the-dip</b> play: you think this call misses, but are still bullish on @cryptosage. Catch some underpriced $SAGE.`:`Pick this if you're bullish on @cryptosage past this call and want the win paid in $SAGE.`}${sageFund?` Funding in $SAGE keeps that exposure end-to-end.`:''}</div>`
-        :`<div class="usdnote">💵 Settling in <b>USDC</b> pays out a fixed dollar amount when correct. Payout is fully <b>isolated from $SAGE price</b> action.</div>`}`;
+        ?`<div class="sagenote">Settling in <b>$SAGE</b> pays your winnings out in this forecaster's token. ${id==='fade'?`A <b>buy-the-dip</b> play: you think this call misses, but are still bullish on @cryptosage. Catch some underpriced $SAGE.`:`Pick this if you're bullish on @cryptosage past this call and want the win paid in $SAGE.`}</div>`
+        :`<div class="usdnote">Settling in <b>USDC</b> pays out a fixed dollar amount when correct. Payout is fully <b>isolated from $SAGE price</b> action.</div>`}`;
  }else{
-  cfg=`<div class="cfgline"><span class="cfglbl">Funding</span><div class="segrow"><button class="seg2 on sage" disabled>🪙 I hold $SAGE</button></div></div>
+  cfg=`<div class="cfgline"><span class="cfglbl">Funding</span><div class="segrow"><button class="seg2 on sage" disabled><span class="btnrow"><span class="cmark sage">S</span>I hold $SAGE</span></button></div></div>
    <div class="hedgenote">Hold the upside, avoid the downside. Take the cautious approach on this forecast. If the call <b>lands</b>, keep your $SAGE as it appreciates. If it <b>misses</b>, exit to USDC to avoid the move down.</div>`;
  }
  /* col 2 — stake & outcomes */
@@ -760,7 +863,14 @@ function tradeDrawer(id){
  const cwt=winTag(id,st);
  const camt=`<div class="amt">${money(pl.win)}${pl.variable?`<span class="range">${money(pl.winLo)} → ${money(pl.winHi)}</span>`:''}</div>`;
  const confbar=`<div class="confbar"><span class="wintag ${cwt.cls}">${cwt.txt}</span><div class="payrow"><div class="track2">${barHtml}</div>${camt}</div></div>`;
- const confirm=`${confbar}<div class="thesismini">${st.thesis}</div>
+ const confNote = id==='hedge'
+   ? st.thesis
+   : settle==='sage'
+     ? (id==='fade'
+        ? `The market is pricing $SAGE at <b>$${P_FALSE.toFixed(2)}</b> if this call misses. Opening now locks in a conditional $SAGE position at <b>$${(P_FALSE*(1-c)).toFixed(2)}</b> (${Math.round(c*100)}% discount), which pays out only if the call misses. If it lands, the position settles worthless.`
+        : `The market is pricing $SAGE at <b>$${P_TRUE.toFixed(2)}</b> if this call lands. Opening now locks in a conditional $SAGE position at <b>$${(P_TRUE*c).toFixed(2)}</b> (${Math.round((1-c)*100)}% discount), which pays out only if the call lands. If it misses, the position settles worthless.`)
+     : `If your call is right, you collect a <b>fixed dollar amount</b> in USDC, fully <b>isolated from $SAGE price</b>. You bank the same whether the token swings or not.`;
+ const confirm=`${confbar}<div class="thesismini">${confNote}</div>
    <button class="btn" id="openBtn">Open position · ${money0(size)}</button>
    <div class="fineprint">Close early at the live mark, or hold to settlement.</div>`;
  return `<div class="drawer">
